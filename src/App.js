@@ -10,6 +10,7 @@ import superagent from 'superagent';
 
 import Spotify from './components/Spotify/Spotify';
 
+import './App.scss';
 
 class App extends Component {
   constructor(props) {
@@ -45,13 +46,14 @@ class App extends Component {
     return (
       <CookiesProvider>
         <Router>
-          <div className="App">
+          <main className="App">
             {this.state.redirect ? this.redirect() : false}
             <h1>Ambix</h1>
-            <h2>An ambient mixer for Spotify</h2>
             <button onClick={this.authorize}>Sign-In</button>
-            {this.state.refreshToken ? <Spotify refreshToken={this.state.refreshToken} /> : false}
-          </div>
+            <div class="media-modules">
+              {this.state.refreshToken ? <Spotify refreshToken={this.state.refreshToken} /> : false}
+            </div>
+          </main>
         </Router>
       </CookiesProvider>
     );

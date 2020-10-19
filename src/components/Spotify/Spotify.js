@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withCookies } from 'react-cookie';
 import superagent from 'superagent';
-import SpotifyPlayer from '../components/SpotifyPlayer';
+import SpotifyPlayer from './components/SpotifyPlayer';
 
 const REFRESH_URI = 'http://localhost:4242/refresh'
 
@@ -81,7 +81,6 @@ class Spotify extends Component {
 
   render() {
     return (<>
-      <p>This will be a Spotify Web Player!!</p>
       { this.state.playerReady ?
         <SpotifyPlayer
           albumTitle={this.state.albumTitle}
