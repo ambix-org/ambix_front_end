@@ -8,6 +8,9 @@ import {
 } from 'react-router-dom';
 import superagent from 'superagent';
 
+import Spotify from './components/Spotify/Spotify';
+
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -15,8 +18,8 @@ class App extends Component {
     const accessToken = this.props.cookies.get('accessToken');
     console.log('cookies in constructor?', accessToken)
     this.state = {
-      access: '',
-      refresh: '',
+      accessToken: '',
+      refreshToken: '',
       redirect: false,
       redirectURL: '',
     }
@@ -41,8 +44,10 @@ class App extends Component {
 
   componentDidMount() {
     const accessToken = this.props.cookies.get('accessToken');
+    const refreshToken = this.props.cookies.get('refreshToken');
     this.setState({
-      accessToken: accessToken,
+      accessToken,
+      refreshToken,
     })
   }
 
@@ -56,7 +61,7 @@ class App extends Component {
             <h1>Ambix</h1>
             <h2>An ambient mixer for Spotify</h2>
             <button onClick={this.authorize}>Sign-In</button>
-            { this.state.accessToken ? <p>Got Token</p> : false}
+            { this.state.accessToken ? <Spotify refreshToken={this.state.refreshToken}/> : false}
           </div>
         </Router>
       </CookiesProvider>
