@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { 
+import {
   CookiesProvider,
-  withCookies, 
+  withCookies,
 } from 'react-cookie';
-import { 
-  BrowserRouter as Router, 
+import {
+  BrowserRouter as Router,
 } from 'react-router-dom';
 import superagent from 'superagent';
 
@@ -15,11 +15,10 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    const accessToken = this.props.cookies.get('accessToken');
-    console.log('cookies in constructor?', accessToken)
+    const refreshToken = this.props.cookies.get('refreshToken');
+
     this.state = {
-      accessToken: '',
-      refreshToken: '',
+      refreshToken: refreshToken,
       redirect: false,
       redirectURL: '',
     }
@@ -33,7 +32,7 @@ class App extends Component {
         this.setState({
           redirect: true,
           redirectURL: response.body.redirectURL
-        }) 
+        })
       })
   }
 
@@ -42,26 +41,16 @@ class App extends Component {
     window.location = this.state.redirectURL;
   }
 
-  componentDidMount() {
-    const accessToken = this.props.cookies.get('accessToken');
-    const refreshToken = this.props.cookies.get('refreshToken');
-    this.setState({
-      accessToken,
-      refreshToken,
-    })
-  }
-
-
   render() {
     return (
       <CookiesProvider>
         <Router>
           <div className="App">
-            { this.state.redirect ? this.redirect() : false}
+            {this.state.redirect ? this.redirect() : false}
             <h1>Ambix</h1>
             <h2>An ambient mixer for Spotify</h2>
             <button onClick={this.authorize}>Sign-In</button>
-            { this.state.accessToken ? <Spotify refreshToken={this.state.refreshToken}/> : false}
+            {this.state.refreshToken ? <Spotify refreshToken={this.state.refreshToken} /> : false}
           </div>
         </Router>
       </CookiesProvider>
@@ -69,4 +58,4 @@ class App extends Component {
   }
 }
 
-  export default withCookies(App);
+export default withCookies(App);
