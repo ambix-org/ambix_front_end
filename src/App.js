@@ -24,6 +24,7 @@ class App extends Component {
       redirectURL: '',
     }
     this.authorize = this.authorize.bind(this);
+    this.disconnect = this.disconnect.bind(this);
     this.redirect = this.redirect.bind(this);
   }
 
@@ -35,6 +36,11 @@ class App extends Component {
           redirectURL: response.body.redirectURL
         })
       })
+  }
+
+  disconnect() {
+    this.setState({ refreshToken: ''});
+    this.props.cookies.remove('refreshToken');
   }
 
   redirect() {
@@ -49,10 +55,15 @@ class App extends Component {
           <main className="App">
             {this.state.redirect ? this.redirect() : false}
             <h1>Ambix</h1>
-            <button onClick={this.authorize}>Sign-In</button>
-            <div class="media-modules">
-              {this.state.refreshToken ? <Spotify refreshToken={this.state.refreshToken} /> : false}
-            </div>
+            { this.state.refreshToken ?
+                <>
+                  <div className="media-modules">
+                    { this.state.refreshToken ? <Spotify refreshToken={this.state.refreshToken} /> : false }
+                  </div>
+                  <button className="disconnect" onClick={this.disconnect}>Disconnect</button>
+                </>
+                : <button onClick={this.authorize}>Sign-In</button>
+            }         
           </main>
         </Router>
       </CookiesProvider>

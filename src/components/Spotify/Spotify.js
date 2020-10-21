@@ -12,10 +12,12 @@ class Spotify extends Component {
       playerReady: false,
       artworkURL: '',
       albumTitle: '',
-      trackTitle: '',
-      artists: '',
+      trackTitle: 'Track',
+      artists: 'Artist',
+      paused: true,
     }
     this.playerCheckInterval = null;
+    this.updatePauseState = this.updatePauseState.bind(this);
   }
 
   checkForPlayer() {
@@ -59,7 +61,8 @@ class Spotify extends Component {
           artists,
           trackTitle: state.track_window.current_track.name,
           artworkURL: state.track_window.current_track.album.images[0].url || './img/spotify-icon.png',
-          albumTitle: state.track_window.current_track.album.name
+          albumTitle: state.track_window.current_track.album.name,
+          paused: state.paused,
         })
       });
       this.player.addListener('ready', ({ device_id }) => {
@@ -79,6 +82,10 @@ class Spotify extends Component {
     this.playerCheckInterval = setInterval(() => this.checkForPlayer(), 1000);
   }
 
+  updatePauseState(newState) {
+    this.setState({ pasused: newState });
+  }
+
   render() {
     return (<>
       { this.state.playerReady ?
@@ -87,6 +94,9 @@ class Spotify extends Component {
           artists={this.state.artists}
           trackTitle={this.state.trackTitle}
           artworkURL={this.state.artworkURL}
+          player={this.player}
+          paused={this.state.paused}
+          updatePauseState={this.updatePauseState}
         />
         : false
       }

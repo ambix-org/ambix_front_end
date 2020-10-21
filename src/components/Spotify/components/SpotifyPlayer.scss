@@ -18,14 +18,16 @@ i {
 }
     
 #artwork-box {
+    background-image: url('./images/spotify-icon.png');
     transition: all 2s ease-in;
     height: 300px;
     width: 300px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 #artwork {
-    margin: 0 auto 20px auto;
+    display: block;
+    margin: 0 auto;
     width: 300px;
     transition: all 2s ease-in;
     border-radius: 5px;
@@ -33,12 +35,13 @@ i {
 }
 
 #track-title {
-    font-size: 18;
+    font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
 }
 
 #artists {
-    font-size: 14;
+    font-size: 14px;
     font-style: italic;
+    margin-bottom: 10px;
 }
