@@ -1,8 +1,8 @@
 i {
     margin: 20px;
+    transition: all 0.2s ease-in;
 }
 
-// TODO: Add Spotify Connect buttons to this group
 #spotify-playback-controls, 
 #spotify-volume-controls {
     display: flex;
@@ -22,7 +22,7 @@ i {
     transition: all 2s ease-in;
     height: 300px;
     width: 300px;
-    margin-bottom: 20px;
+    margin: 0px auto 20px auto;
 }
 
 #artwork {
@@ -31,7 +31,7 @@ i {
     width: 300px;
     transition: all 2s ease-in;
     border-radius: 5px;
-    box-shadow: 0px 0px 12px rgb(117, 117, 117);
+    box-shadow: 0px 0px 10px rgba(117, 117, 117, 0.75);
 }
 
 #track-title {
@@ -44,4 +44,13 @@ i {
     font-size: 14px;
     font-style: italic;
     margin-bottom: 10px;
+    height: 14px;
+}
+
+.dim {
+    color: rgba(117, 117, 117, 0.5);
+}
+
+.dim-range {
+    opacity: 0.17;
 }

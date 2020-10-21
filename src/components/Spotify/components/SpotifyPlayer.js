@@ -10,12 +10,16 @@ class SpotifyPlayer extends Component {
       volume: 40,
     }
 
-    this.nextTrack = this.nextTrack.bind(this);
-    this.previousTrack = this.previousTrack.bind(this);
+    this.changeVolume = this.changeVolume.bind(this);
+    this.getInputRangeStatus = this.getInputRangeStatus.bind(this);
+    this.getNextTrack = this.getNextTrack.bind(this);
+    this.getPlaybackStatus = this.getPlaybackStatus.bind(this);
+    this.getPreviousTrack = this.getPreviousTrack.bind(this);
+    this.getTrackStatus = this.getTrackStatus.bind(this);
+    this.getVolumeStatus = this.getVolumeStatus.bind(this);
     this.rangeHandler = this.rangeHandler.bind(this);
     this.togglePlayback = this.togglePlayback.bind(this);
     this.volumeButtonHandler = this. volumeButtonHandler.bind(this);
-    this.volumeChange = this.volumeChange.bind(this);
   }
 
   togglePlayback() {
@@ -32,33 +36,50 @@ class SpotifyPlayer extends Component {
     newLevel = newLevel >= 0 ? newLevel : 0;
     newLevel = newLevel <= 100 ? newLevel : 100;
     const playerLevel = newLevel / 100;
-    this.volumeChange(playerLevel);
+    this.changeVolume(playerLevel);
     this.setState({ volume: newLevel }); 
   }
 
   rangeHandler(event) {
     const newLevel = parseInt(event.target.value);
     const playerLevel = newLevel / 100;
-    this.volumeChange(playerLevel);
+    this.changeVolume(playerLevel);
     this.setState({ volume: newLevel });
   }
 
-  volumeChange(playerLevel) {
-    this.props.player.setVolume(playerLevel)
-      .then(state => {
-        console.log(state);
-        console.log(playerLevel);
-      })
+  changeVolume(playerLevel) {
+    this.props.player.setVolume(playerLevel);
   }
 
-  nextTrack() {
+  getNextTrack() {
     this.props.player.nextTrack();
     this.props.updatePauseState(false);
   }
 
-  previousTrack() {
+  getPreviousTrack() {
     this.props.player.previousTrack();
     this.props.updatePauseState(false);
+  }
+
+  getPlaybackStatus() {
+    const baseClass = `fas`;
+    const playbackState  = this.props.paused ? ' fa-play' : ' fa-pause';
+    const playable = this.props.playable ? '' : ' dim';
+    return baseClass + playbackState + playable;
+  }
+
+  getTrackStatus(baseClass, trackStatus) {
+    const playable = this.props.playable && trackStatus ? '' : ' dim';
+    return baseClass + playable;
+  }
+
+  getVolumeStatus(baseClass) {
+    const playable = this.props.playable ? '' : ' dim';
+    return baseClass + playable;
+  }
+
+  getInputRangeStatus() {
+    return this.props.playable? '' : 'dim-range';
   }
 
   render() {
@@ -79,17 +100,20 @@ class SpotifyPlayer extends Component {
           <p id="artists">{this.props.artists}</p>
         </div>
         <div id="spotify-playback-controls">
-          <i className="fas fa-backward" id="spotify-previous" onClick={this.previousTrack}></i>
-          <i className={ this.props.paused ? "fas fa-play" : "fas fa-pause"}
-            onClick={this.togglePlayback}
-          ></i>
-
-          <i className="fas fa-forward" id="spotify-next" onClick={this.nextTrack}></i>
+          <i className={this.getTrackStatus('fas fa-backward', this.props.previousTracks)} 
+            onClick={this.getPreviousTrack}></i>
+          <i className={this.getPlaybackStatus()} onClick={this.togglePlayback}></i>
+          <i className={this.getTrackStatus('fas fa-forward', this.props.nextTracks)} 
+            onClick={this.getNextTrack}></i>
         </div>
         <div id="spotify-volume-controls">
-          <i className="fas fa-volume-down" id="spotify-volume-down" onClick={ () => this.volumeButtonHandler(-1) }></i>
-          <input type="range" min="0" max="80" value={ this.state.volume } id="spotify-volume-range" onChange={ this.rangeHandler }/>
-          <i className="fas fa-volume-up" id="spotify-volume-up" onClick={ () => this.volumeButtonHandler(1) }></i>
+          <i className={this.getVolumeStatus('fas fa-volume-down')} 
+            onClick={ () => this.volumeButtonHandler(-1) }></i>
+          <input type="range" min="0" max="80" 
+            className={this.getInputRangeStatus()} 
+            value={ this.state.volume } onChange={ this.rangeHandler }/>
+          <i className={this.getVolumeStatus('fas fa-volume-up')} 
+            onClick={ () => this.volumeButtonHandler(1) }></i>
         </div>
       </section>
     )

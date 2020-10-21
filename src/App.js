@@ -41,6 +41,7 @@ class App extends Component {
   disconnect() {
     this.setState({ refreshToken: ''});
     this.props.cookies.remove('refreshToken');
+    document.location.reload()
   }
 
   redirect() {
