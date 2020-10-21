@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withCookies } from 'react-cookie';
 import superagent from 'superagent';
-import SpotifyPlayer from '../components/SpotifyPlayer';
+import SpotifyPlayer from './components/SpotifyPlayer';
 
 const REFRESH_URI = 'http://localhost:4242/refresh'
 
@@ -12,10 +12,16 @@ class Spotify extends Component {
       playerReady: false,
       artworkURL: '',
       albumTitle: '',
-      trackTitle: '',
+      trackTitle: 'Select \'ReAmbix\' in Spotify',
       artists: '',
+      playable: false,
+      paused: true,
+      nextTracks: false,
+      previousTracks: false,
     }
+    this.checkForPlayer = this.checkForPlayer.bind(this);
     this.playerCheckInterval = null;
+    this.updatePauseState = this.updatePauseState.bind(this);
   }
 
   checkForPlayer() {
@@ -52,15 +58,32 @@ class Spotify extends Component {
       });
       this.player.addListener('player_state_changed', state => {
         console.log('State Change: ', state);
-        const artists = state.track_window.current_track.artists.reduce((accum, artist) => {
-          return accum ? `${accum} | ${artist.name}` : `${artist.name}`;
-        }, '');
-        this.setState({
-          artists,
-          trackTitle: state.track_window.current_track.name,
-          artworkURL: state.track_window.current_track.album.images[0].url || './img/spotify-icon.png',
-          albumTitle: state.track_window.current_track.album.name
-        })
+        if (state) {
+          const artists = state.track_window.current_track.artists.reduce((accum, artist) => {
+            return accum ? `${accum} | ${artist.name}` : `${artist.name}`;
+          }, '');
+          this.setState({
+            artists,
+            trackTitle: state.track_window.current_track.name,
+            artworkURL: state.track_window.current_track.album.images[0].url || './img/spotify-icon.png',
+            albumTitle: state.track_window.current_track.album.name,
+            playable: true,
+            paused: state.paused,
+            nextTracks: state.track_window.next_tracks.length ? true : false,
+            previousTracks: state.track_window.previous_tracks.length ? true : false,
+          })
+        } else {
+          this.setState({
+            artworkURL: '',
+            albumTitle: '',
+            trackTitle: 'Select \'ReAmbix\' in Spotify',
+            artists: '',
+            playable: false,
+            paused: true,
+            nextTracks: false,
+            previousTracks: false,
+          })
+        }
       });
       this.player.addListener('ready', ({ device_id }) => {
         console.log('Ready with Device ID', device_id);
@@ -79,15 +102,24 @@ class Spotify extends Component {
     this.playerCheckInterval = setInterval(() => this.checkForPlayer(), 1000);
   }
 
+  updatePauseState(newState) {
+    this.setState({ pasused: newState });
+  }
+
   render() {
     return (<>
-      <p>This will be a Spotify Web Player!!</p>
       { this.state.playerReady ?
         <SpotifyPlayer
           albumTitle={this.state.albumTitle}
           artists={this.state.artists}
           trackTitle={this.state.trackTitle}
           artworkURL={this.state.artworkURL}
+          player={this.player}
+          playable={this.state.playable}
+          paused={this.state.paused}
+          nextTracks={this.state.nextTracks}
+          previousTracks={this.state.previousTracks}
+          updatePauseState={this.updatePauseState}
         />
         : false
       }

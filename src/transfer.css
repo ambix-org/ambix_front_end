@@ -1,0 +1,43 @@
+/* STATUS  */
+.warning {
+    color: rgb(189, 79, 15);
+}
+
+.success {
+    color: rgb(71, 128, 88);
+}
+
+.error {
+    color: rgb(189, 15, 15);
+}
+
+/* YouTube */
+#player {
+    display: none;
+}
+
+.hidden {
+    display: none;
+}
+
+#ambience-tracks {
+    display: flex;
+    justify-content: center;
+    height: 80px;
+}
+
+.selected {
+    background-color: rgb(105, 71, 130);
+    color: rgb(175, 175, 175);
+    box-shadow: 0px 0px 8px rgb(150, 101, 185);
+}
+
+/* Spotify Connect */
+.spotify-connect-buttons {
+    flex-direction: row;
+}
+
+#spotify-connect {
+    text-align: center;
+    margin: 0 20px 40px 20px;
+}

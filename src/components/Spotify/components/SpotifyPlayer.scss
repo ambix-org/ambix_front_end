@@ -1,0 +1,56 @@
+i {
+    margin: 20px;
+    transition: all 0.2s ease-in;
+}
+
+#spotify-playback-controls, 
+#spotify-volume-controls {
+    display: flex;
+    justify-content: center;
+}
+
+#spotify-track-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+    
+#artwork-box {
+    background-image: url('./images/spotify-icon.png');
+    transition: all 2s ease-in;
+    height: 300px;
+    width: 300px;
+    margin: 0px auto 20px auto;
+}
+
+#artwork {
+    display: block;
+    margin: 0 auto;
+    width: 300px;
+    transition: all 2s ease-in;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(117, 117, 117, 0.75);
+}
+
+#track-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#artists {
+    font-size: 14px;
+    font-style: italic;
+    margin-bottom: 10px;
+    height: 14px;
+}
+
+.dim {
+    color: rgba(117, 117, 117, 0.5);
+}
+
+.dim-range {
+    opacity: 0.17;
+}

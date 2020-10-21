@@ -10,6 +10,7 @@ import superagent from 'superagent';
 
 import Spotify from './components/Spotify/Spotify';
 
+import './App.scss';
 
 class App extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class App extends Component {
       redirectURL: '',
     }
     this.authorize = this.authorize.bind(this);
+    this.disconnect = this.disconnect.bind(this);
     this.redirect = this.redirect.bind(this);
   }
 
@@ -36,6 +38,12 @@ class App extends Component {
       })
   }
 
+  disconnect() {
+    this.setState({ refreshToken: ''});
+    this.props.cookies.remove('refreshToken');
+    document.location.reload()
+  }
+
   redirect() {
     console.log(`Redirecting to ${this.state.redirectURL}`)
     window.location = this.state.redirectURL;
@@ -45,13 +53,19 @@ class App extends Component {
     return (
       <CookiesProvider>
         <Router>
-          <div className="App">
+          <main className="App">
             {this.state.redirect ? this.redirect() : false}
             <h1>Ambix</h1>
-            <h2>An ambient mixer for Spotify</h2>
-            <button onClick={this.authorize}>Sign-In</button>
-            {this.state.refreshToken ? <Spotify refreshToken={this.state.refreshToken} /> : false}
-          </div>
+            { this.state.refreshToken ?
+                <>
+                  <div className="media-modules">
+                    { this.state.refreshToken ? <Spotify refreshToken={this.state.refreshToken} /> : false }
+                  </div>
+                  <button className="disconnect" onClick={this.disconnect}>Disconnect</button>
+                </>
+                : <button onClick={this.authorize}>Sign-In</button>
+            }         
+          </main>
         </Router>
       </CookiesProvider>
     );
