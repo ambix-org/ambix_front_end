@@ -29,7 +29,7 @@ class App extends Component {
   }
 
   authorize() {
-    superagent.get('https://ambix-dev.herokuapp.com/authorize')
+    superagent.get('https://ambix-server.herokuapp.com/authorize')
       .then(response => {
         this.setState({
           redirect: true,
