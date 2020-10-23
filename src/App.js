@@ -1,47 +1,54 @@
 import React, { Component } from 'react';
-import {
-  CookiesProvider,
-  withCookies,
-} from 'react-cookie';
-import {
-  BrowserRouter as Router,
-} from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import superagent from 'superagent';
 
+import Auth from './components/Auth/Auth';
 import Spotify from './components/Spotify/Spotify';
 
 import './App.scss';
 
+
+// const AUTH_URI = 'https://ambix-server.herokuapp.com/authorize';
+const AUTH_URI = 'http://localhost:4242/authorize';
+
+
 class App extends Component {
+
   constructor(props) {
     super(props);
-
-    const refreshToken = this.props.cookies.get('refreshToken');
-
+    const refreshToken = localStorage.getItem('refresh');
+    
     this.state = {
       refreshToken: refreshToken,
       redirect: false,
       redirectURL: '',
     }
-    this.authorize = this.authorize.bind(this);
+    
+    this.isAuthorized = this.isAuthorized.bind(this);
+    this.requestAuth = this.requestAuth.bind(this);
     this.disconnect = this.disconnect.bind(this);
     this.redirect = this.redirect.bind(this);
   }
 
-  authorize() {
-    superagent.get('https://ambix-server.herokuapp.com/authorize')
+  requestAuth() {
+    superagent.get(AUTH_URI)
       .then(response => {
         this.setState({
           redirect: true,
           redirectURL: response.body.redirectURL
         })
-      })
+      });
+  }
+
+  isAuthorized(refreshToken) {
+    this.setState({
+      refreshToken
+    })
   }
 
   disconnect() {
     this.setState({ refreshToken: ''});
-    this.props.cookies.remove('refreshToken');
-    document.location.reload()
+    localStorage.removeItem('refresh');
   }
 
   redirect() {
@@ -50,26 +57,28 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <CookiesProvider>
-        <Router>
-          <main className="App">
-            {this.state.redirect ? this.redirect() : false}
-            <h1>Ambix</h1>
-            { this.state.refreshToken ?
-                <>
-                  <div className="media-modules">
-                    { this.state.refreshToken ? <Spotify refreshToken={this.state.refreshToken} /> : false }
-                  </div>
-                  <button className="disconnect" onClick={this.disconnect}>Disconnect</button>
-                </>
-                : <button onClick={this.authorize}>Sign-In</button>
-            }         
-          </main>
-        </Router>
-      </CookiesProvider>
-    );
+    return (<>
+      <Route path="/auth">
+        <Auth refreshToken={this.state.refreshToken} isAuthorized={this.isAuthorized}/>
+      </Route>
+      <Route path="/">
+        <main className="App">
+          {this.state.redirect ? this.redirect() : false}
+          <h1>Ambix</h1>
+          { this.state.refreshToken ?
+            <>
+              <div className="media-modules">
+                { this.state.refreshToken ? <Spotify refreshToken={this.state.refreshToken} /> : false }
+              </div>
+              <button className="disconnect" onClick={this.disconnect}>Disconnect</button>
+            </>
+            : 
+            <button onClick={this.requestAuth}>Sign-In</button>
+          }         
+        </main>
+      </Route>
+    </>);
   }
 }
 
-export default withCookies(App);
+export default App;
