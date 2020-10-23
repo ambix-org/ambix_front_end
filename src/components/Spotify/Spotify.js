@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withCookies } from 'react-cookie';
 import superagent from 'superagent';
 import SpotifyPlayer from './components/SpotifyPlayer';
 
@@ -125,4 +124,4 @@ class Spotify extends Component {
   }
 }
 
-export default withCookies(Spotify);
+export default Spotify;
