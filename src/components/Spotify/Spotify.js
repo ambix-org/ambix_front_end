@@ -3,7 +3,9 @@ import { withCookies } from 'react-cookie';
 import superagent from 'superagent';
 import SpotifyPlayer from './components/SpotifyPlayer';
 
-const REFRESH_URI = 'https://ambix-server.herokuapp.com/refresh'
+
+const REFRESH_URI = 'https://ambix-server.herokuapp.com/refresh';
+// const REFRESH_URI = 'http://localhost:4242/refresh';
 
 class Spotify extends Component {
   constructor(props) {
@@ -25,15 +27,11 @@ class Spotify extends Component {
   }
 
   checkForPlayer() {
-    console.log("Checking for player")
-
     if (window.Spotify !== null) {
-      console.log("Player found")
       clearInterval(this.playerCheckInterval);
       this.player = new window.Spotify.Player({
         name: "ReAmbix",
         getOAuthToken: cb => {
-          // Contacting Backend for new access token
           superagent.post(REFRESH_URI)
             .type('form')
             .send({ refreshToken: this.props.refreshToken })

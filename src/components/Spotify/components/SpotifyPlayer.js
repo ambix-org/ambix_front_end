@@ -19,7 +19,7 @@ class SpotifyPlayer extends Component {
     this.getVolumeStatus = this.getVolumeStatus.bind(this);
     this.rangeHandler = this.rangeHandler.bind(this);
     this.togglePlayback = this.togglePlayback.bind(this);
-    this.volumeButtonHandler = this. volumeButtonHandler.bind(this);
+    this.volumeButtonHandler = this.volumeButtonHandler.bind(this);
   }
 
   togglePlayback() {
