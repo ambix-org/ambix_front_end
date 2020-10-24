@@ -19,10 +19,11 @@ class Spotify extends Component {
       paused: true,
       nextTracks: false,
       previousTracks: false,
+      volume: 40,
     }
     this.checkForPlayer = this.checkForPlayer.bind(this);
-    // this.playerCheckInterval = null;
     this.updatePauseState = this.updatePauseState.bind(this);
+    this.changeVolume = this.changeVolume.bind(this);
   }
 
   checkForPlayer() {
@@ -103,6 +104,12 @@ class Spotify extends Component {
     this.setState({ pasused: newState });
   }
 
+  changeVolume(playerLevel) {
+    const newLevel = parseFloat((newLevel / this.state.divisor).toFixed(2));
+    this.props.player.setVolume(newLevel);
+    this.setState({ volume: newLevel });
+  }
+
   render() {
     return (<>
       { this.state.playerReady ?
@@ -117,6 +124,8 @@ class Spotify extends Component {
           nextTracks={this.state.nextTracks}
           previousTracks={this.state.previousTracks}
           updatePauseState={this.updatePauseState}
+          volume={this.state.volume}
+          changeVolume={this.changeVolume}
         />
         : false
       }
