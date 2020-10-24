@@ -16,7 +16,8 @@ class YouTube extends Component {
         ['Rain', 'LlKyGAGHc4c'],
         ['Storm', 'EbMZh-nQFsU'],
         ['Waves', 'ibZUd-6pDeY'],
-      ]
+      ],
+      volume: 0,
     }
     this.checkForYouTubeIframeAPI = this.checkForYouTubeIframeAPI.bind(this);
     this.onPlayerReady = this.onPlayerReady.bind(this);
@@ -73,17 +74,17 @@ class YouTube extends Component {
     <section className="youtube-player media-module">
       <h2>Ambience Mixer</h2> 
       <div id='player'></div>
-      <div id="ambience-tracks">
+      <div className="ambience-tracks">
         {/* Loop over sourcecs to create track buttons in the  */}
       </div>
-      <div class="player-controls">
-        <i class="fas fa-play" onClick={this.playVideo}></i>
-        <i class="fas fa-stop" onClick={this.stopVideo}></i>
+      <div className="player-controls">
+        <i className="fas fa-play" onClick={this.playVideo}></i>
+        <i className="fas fa-stop" onClick={this.stopVideo}></i>
       </div>
-      <div class="volume-controls">              
-        <i class="fas fa-volume-down" id="volume-down-yt"></i>
-        <input type="range" min="0" max="80" value="40" id="volume-range-yt" />
-        <i class="fas fa-volume-up" id="volume-up-yt"></i>
+      <div className="volume-controls">              
+        <i className="fas fa-volume-down"></i>
+        <input type="range" min="0" max="80" value={this.state.volume} />
+        <i className="fas fa-volume-up"></i>
       </div>
     </section>);
   }
