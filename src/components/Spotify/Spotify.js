@@ -3,8 +3,8 @@ import superagent from 'superagent';
 import SpotifyPlayer from './components/SpotifyPlayer';
 
 
-const REFRESH_URI = 'https://ambix-server.herokuapp.com/refresh';
-// const REFRESH_URI = 'http://localhost:4242/refresh';
+// const REFRESH_URI = 'https://ambix-server.herokuapp.com/refresh';
+const REFRESH_URI = 'http://localhost:4242/refresh';
 
 class Spotify extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class Spotify extends Component {
       previousTracks: false,
     }
     this.checkForPlayer = this.checkForPlayer.bind(this);
-    this.playerCheckInterval = null;
+    // this.playerCheckInterval = null;
     this.updatePauseState = this.updatePauseState.bind(this);
   }
 

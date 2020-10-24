@@ -4,12 +4,13 @@ import superagent from 'superagent';
 
 import Auth from './components/Auth/Auth';
 import Spotify from './components/Spotify/Spotify';
+import YouTube from './components/YouTube/Youtube';
 
 import './App.scss';
 
 
-const AUTH_URI = 'https://ambix-server.herokuapp.com/authorize';
-// const AUTH_URI = 'http://localhost:4242/authorize';
+// const AUTH_URI = 'https://ambix-server.herokuapp.com/authorize';
+const AUTH_URI = 'http://localhost:4242/authorize';
 
 
 class App extends Component {
@@ -69,6 +70,7 @@ class App extends Component {
             <>
               <div className="media-modules">
                 { this.state.refreshToken ? <Spotify refreshToken={this.state.refreshToken} /> : false }
+                <YouTube />
               </div>
               <button className="disconnect" onClick={this.disconnect}>Disconnect</button>
             </>
