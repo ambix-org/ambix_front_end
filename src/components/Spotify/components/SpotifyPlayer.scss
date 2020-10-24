@@ -3,8 +3,7 @@ i {
     transition: all 0.2s ease-in;
 }
 
-#spotify-playback-controls, 
-#spotify-volume-controls {
+#spotify-playback-controls {
     display: flex;
     justify-content: center;
 }
@@ -45,12 +44,4 @@ i {
     font-style: italic;
     margin-bottom: 10px;
     height: 14px;
-}
-
-.dim {
-    color: rgba(117, 117, 117, 0.5);
-}
-
-.dim-range {
-    opacity: 0.17;
 }
