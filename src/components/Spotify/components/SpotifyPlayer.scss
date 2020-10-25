@@ -16,6 +16,13 @@ i {
     font-family: 'Montserrat', sans-serif;
     text-align: center;
 }
+.spotify-player {
+    transition: opacity 1s ease-out;
+}
+
+.player-contents {
+    transition: opacity 1s ease-out;
+}
 
 .album-artwork-container {
     position: relative;

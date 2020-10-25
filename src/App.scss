@@ -23,6 +23,7 @@ body {
     color: #afafaf;
     display: flex;
     justify-content: center;
+    height: 100%;
 }
 
 main {
@@ -75,15 +76,52 @@ button:focus {
     outline: none;
 }
 
+.App {
+    height: 100%;
+}
+
 .media-module {
+    height: 550px;
     box-shadow: 0px 0px 10px rgba(117, 117, 117, 0.75);
     border-radius: 5px;
     padding: 20px;
     margin: 0 10px 20px 10px;
 }
 
+.transparent {
+    opacity: 0;
+}
+
 .media-modules {
+    height: 550px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+}
+
+.disconnect {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0;
+}
+
+.spotify-logo { 
+    display: inline;
+    font-size: 24px;
+    margin: 0 10px 0 0;
+}
+
+.button-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 24px;
+}
+
+.button-container {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
 }
