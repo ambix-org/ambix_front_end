@@ -4,20 +4,20 @@ import Volume from '../Controls/Volume/Volume';
 import './YouTube.scss';
 
 class AmbientTrack extends Component {
-  constructor(props) {
-    super(props);
-    this.changeTrack = this.changeTrack.bind(this);
-  }
 
-  changeTrack() {
-    this.props.player.loadVideoById(this.props.videoId);
-  }
-
+  // <AmbientTrack 
+  //   name={source.name} 
+  //   videoId={source.videoId} 
+  //   selected={source.selected === this.state.videoId}
+  //   key={source.videoId}
+  //   changeTrack={this.changeTrack}
+  // />
+  
   render() {
     return (
       <button 
-        className={'track' + (this.props.selected ? ' selected' : '')}
-        onClick={this.changeTrack}
+      className={'track' + (this.props.selected ? ' selected' : '')}
+      onClick={() => this.props.changeTrack(this.props.videoId)}
       >
         {this.props.name}
       </button>
@@ -40,8 +40,10 @@ class YouTube extends Component {
         {name: 'Storm', videoId: 'EbMZh-nQFsU', selected: false},
         {name: 'Waves', videoId: 'ibZUd-6pDeY', selected: false},
       ],
+      videoId: 'LlKyGAGHc4c',
       volume: 0,
     }
+    this.changeTrack = this.changeTrack.bind(this);
     this.changeVolume = this.changeVolume.bind(this);
     this.checkForYouTubeIframeAPI = this.checkForYouTubeIframeAPI.bind(this);
     this.getPlaybackStatus = this.getPlaybackStatus.bind(this);
@@ -58,7 +60,7 @@ class YouTube extends Component {
       this.player = new window.YT.Player('player', {
         height: '0',
         widht: '0',
-        videoId: 'LlKyGAGHc4c',
+        videoId: this.state.videoId,
         events: {
           'onReady': this.onPlayerReady,
           'onStateChange': this.onPlayerStateChange,
@@ -67,7 +69,11 @@ class YouTube extends Component {
     }
   }
 
-  
+  changeTrack(videoId) {
+    this.player.loadVideoById(videoId);
+    this.setState({videoId: videoId});
+  }
+
   playVideo() {
     this.player.playVideo();
   }
@@ -122,9 +128,9 @@ class YouTube extends Component {
           return (<AmbientTrack 
             name={source.name} 
             videoId={source.videoId} 
-            player={this.player}
-            selected={source.selected}
+            selected={source.videoId === this.state.videoId}
             key={source.videoId}
+            changeTrack={this.changeTrack}
           />)
         })}
       </div>
