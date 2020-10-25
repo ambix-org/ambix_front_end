@@ -3,6 +3,28 @@ import Volume from '../Controls/Volume/Volume';
 
 import './YouTube.scss';
 
+class AmbientTrack extends Component {
+  constructor(props) {
+    super(props);
+    this.changeTrack = this.changeTrack.bind(this);
+  }
+
+  changeTrack() {
+    this.props.player.loadVideoById(this.props.videoId);
+  }
+
+  render() {
+    return (
+      <button 
+        className={'track' + (this.props.selected ? ' selected' : '')}
+        onClick={this.changeTrack}
+      >
+        {this.props.name}
+      </button>
+    )
+  }
+}
+
 
 class YouTube extends Component {
   constructor(props) {
@@ -10,13 +32,13 @@ class YouTube extends Component {
     this.state = {
       paused: true,
       ambienceSources: [
-        ['Cafe', 'gaGrHUekGrc'],
-        ['Campfire', 'QMJYlmX1sNU'],
-        ['Fireplace', 'K0pJRo0XU8s'],
-        ['Lab', 'eGeJF85SOdQ'],
-        ['Rain', 'LlKyGAGHc4c'],
-        ['Storm', 'EbMZh-nQFsU'],
-        ['Waves', 'ibZUd-6pDeY'],
+        {name: 'Cafe', videoId: 'gaGrHUekGrc', selected: false},
+        {name: 'Campfire', videoId: 'QMJYlmX1sNU', selected: false},
+        {name: 'Fireplace', videoId: 'K0pJRo0XU8s', selected: false},
+        {name: 'Lab', videoId: 'eGeJF85SOdQ', selected: false},
+        {name: 'Rain', videoId: 'LlKyGAGHc4c', selected: false},
+        {name: 'Storm', videoId: 'EbMZh-nQFsU', selected: false},
+        {name: 'Waves', videoId: 'ibZUd-6pDeY', selected: false},
       ],
       volume: 0,
     }
@@ -85,16 +107,21 @@ class YouTube extends Component {
     this.player.setVolume(playerLevel);
     this.setState({ volume: playerLevel });
   }
-  
-  // YouTube Player Methods:
-  //   - player.loadVideoById(videoId)
+
   render() {
     return (
     <section className="youtube-player media-module">
       <h2>Ambience Mixer</h2> 
       <div id='player'></div>
       <div className="ambience-tracks">
-        {/* Loop over sources to create track buttons */}
+        { this.state.ambienceSources.map(source => {
+          return (<AmbientTrack 
+            name={source.name} 
+            videoId={source.videoId} 
+            player={this.player}
+            selected={source.selected}
+          />)
+        })}
       </div>
       <div className="player-controls">
       <i className={this.getPlaybackStatus()} onClick={this.togglePlayback}></i>
