@@ -74,7 +74,7 @@ class Spotify extends Component {
           this.setState({
             artworkURL: 'https://www.techspot.com/images2/downloads/topdownload/2016/12/spotify-icon-18.png',
             albumTitle: 'Spotify logo',
-            trackTitle: 'Select \'ReAmbix\' in Spotify',
+            trackTitle: 'Select \'Ambix\' in Spotify',
             artists: '',
             playable: false,
             paused: true,

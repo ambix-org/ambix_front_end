@@ -38,7 +38,7 @@ class YouTube extends Component {
         {name: 'Waves', videoId: 'ibZUd-6pDeY', selected: false},
       ],
       videoId: '',
-      volume: 0,
+      volume: 40,
     }
     this.changeTrack = this.changeTrack.bind(this);
     this.changeVolume = this.changeVolume.bind(this);
@@ -84,7 +84,7 @@ class YouTube extends Component {
   }
   
   onPlayerReady() {
-    this.setState({volume: this.player.getVolume()})
+    this.changeVolume(40);
   }
   
   onPlayerStateChange(event) {
@@ -139,13 +139,13 @@ class YouTube extends Component {
         })}
       </div>
       <div className="player-controls">
-      <i className={this.getPlaybackStatus()} onClick={this.togglePlayback}></i>
+        <i className={this.getPlaybackStatus()} onClick={this.togglePlayback}></i>
+        <Volume
+          playable={this.state.videoId}
+          volume={this.state.volume}
+          changeVolume={this.changeVolume}
+        />
       </div>
-      <Volume
-        playable={this.state.videoId}
-        volume={this.state.volume}
-        changeVolume={this.changeVolume}
-      />
     </section>);
   }
 }
