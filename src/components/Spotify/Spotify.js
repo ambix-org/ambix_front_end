@@ -13,7 +13,7 @@ class Spotify extends Component {
       playerReady: false,
       artworkURL: '',
       albumTitle: '',
-      trackTitle: 'Select \'ReAmbix\' in Spotify',
+      trackTitle: 'Select \'Ambix\' in Spotify',
       artists: '',
       playable: false,
       paused: true,
@@ -24,13 +24,14 @@ class Spotify extends Component {
     this.checkForPlayer = this.checkForPlayer.bind(this);
     this.updatePauseState = this.updatePauseState.bind(this);
     this.changeVolume = this.changeVolume.bind(this);
+    this.getPlayerClass = this.getPlayerClass.bind(this);
   }
 
   checkForPlayer() {
     if (window.Spotify !== null) {
       clearInterval(this.playerCheckInterval);
       this.player = new window.Spotify.Player({
-        name: "ReAmbix",
+        name: "Ambix",
         getOAuthToken: cb => {
           superagent.post(REFRESH_URI)
             .type('form')
@@ -112,26 +113,35 @@ class Spotify extends Component {
     this.setState({ volume: playerLevel });
   }
 
+  getPlayerClass() {
+    let newClass = 'player-contents';
+    newClass += this.state.playerReady ? '' : ' transparent';
+    return newClass;
+  }
+
   render() {
-    return (<>
-      { this.state.playerReady ?
-        <SpotifyPlayer
-          albumTitle={this.state.albumTitle}
-          artists={this.state.artists}
-          trackTitle={this.state.trackTitle}
-          artworkURL={this.state.artworkURL}
-          player={this.player}
-          playable={this.state.playable}
-          paused={this.state.paused}
-          nextTracks={this.state.nextTracks}
-          previousTracks={this.state.previousTracks}
-          updatePauseState={this.updatePauseState}
-          volume={this.state.volume}
-          changeVolume={this.changeVolume}
-        />
-        : false
-      }
-    </>)
+    return (
+    <section className="spotify-player media-module">
+      <div className={this.getPlayerClass()}>
+        { this.state.playerReady ?
+          <SpotifyPlayer
+            albumTitle={this.state.albumTitle}
+            artists={this.state.artists}
+            trackTitle={this.state.trackTitle}
+            artworkURL={this.state.artworkURL}
+            player={this.player}
+            playable={this.state.playable}
+            paused={this.state.paused}
+            nextTracks={this.state.nextTracks}
+            previousTracks={this.state.previousTracks}
+            updatePauseState={this.updatePauseState}
+            volume={this.state.volume}
+            changeVolume={this.changeVolume}
+          />
+          : false
+        }
+      </div>
+    </section>)
   }
 }
 

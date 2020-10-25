@@ -50,6 +50,7 @@ class App extends Component {
   disconnect() {
     this.setState({ refreshToken: ''});
     localStorage.removeItem('refresh');
+    window.location.reload()
   }
 
   redirect() {
@@ -72,10 +73,24 @@ class App extends Component {
                 { this.state.refreshToken ? <Spotify refreshToken={this.state.refreshToken} /> : false }
                 <YouTube />
               </div>
-              <button className="disconnect" onClick={this.disconnect}>Disconnect</button>
+              <div className="button-container">
+                <button className="disconnect" onClick={this.disconnect}>
+                    <i class="fa fa-spotify spotify-logo" aria-hidden="true"></i>
+                  <div className="button-text">
+                    <p class="account-text" >Disconnect</p>
+                  </div>
+                </button>
+              </div>
             </>
             : 
-            <button onClick={this.requestAuth}>Sign-In</button>
+            <div className="button-container">
+              <button className="disconnect" onClick={this.requestAuth}>
+                  <i class="fa fa-spotify spotify-logo" aria-hidden="true"></i>
+                <div className="button-text">
+                  <p class="account-text" >Sign In</p>
+                </div>
+              </button>
+            </div>
           }         
         </main>
       </Route>

@@ -109,7 +109,7 @@ class SpotifyPlayer extends Component {
 
   render() {
     return (
-      <section className="spotify-player media-module">
+      <>
         <div id="spotify-track-info">
           <AlbumArtwork
             artworkURL={this.props.artworkURL}
@@ -132,7 +132,7 @@ class SpotifyPlayer extends Component {
           volumeDivisor={100}
           changeVolume={this.props.changeVolume}
         />
-      </section>
+      </>
     )
   }
 }
