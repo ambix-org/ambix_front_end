@@ -21,14 +21,9 @@ class AlbumArtwork extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('Previous Props: ', prevProps);
-    console.log('New Props: ', this.props);
-    console.log(this.props.artworkURL !== prevProps.artworkURL);
     if (this.props.artworkURL !== prevProps.artworkURL){
       const imageOneInfo = this.getImageInfo('imageOne');
-      console.log('New imageOne Info: ', imageOneInfo)
       const imageTwoInfo = this.getImageInfo('imageTwo');
-      console.log('New imageTwo Info: ', imageTwoInfo);
 
       this.setState({
         imageOneActive: !this.state.imageOneActive,
