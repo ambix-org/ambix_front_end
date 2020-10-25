@@ -85,7 +85,11 @@ class YouTube extends Component {
   }
   
   onPlayerStateChange(event) {
-    console.log('STATE CHANGED:\n', event.data)
+    if (event.data === 1) {
+      this.setState({paused: false});
+    } else if (event.data === 5){
+      this.setState({paused: true});
+    }
   }
   
   getPlaybackStatus() {
