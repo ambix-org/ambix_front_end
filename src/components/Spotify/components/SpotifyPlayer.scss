@@ -18,10 +18,15 @@ i {
 }
 .spotify-player {
     transition: opacity 1s ease-out;
+    height: 550px;
 }
 
 .player-contents {
     transition: opacity 1s ease-out;
+    justify-content: space-between;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
 }
 
 .album-artwork-container {

@@ -48,7 +48,6 @@ class App extends Component {
   }
 
   disconnect() {
-    this.setState({ refreshToken: ''});
     localStorage.removeItem('refresh');
     window.location.reload()
   }
@@ -74,9 +73,9 @@ class App extends Component {
               </div>
               <div className="button-container">
                 <button className="disconnect" onClick={this.disconnect}>
-                    <i class="fa fa-spotify spotify-logo" aria-hidden="true"></i>
+                    <i className="fa fa-spotify spotify-logo" aria-hidden="true"></i>
                   <div className="button-text">
-                    <p class="account-text" >Disconnect</p>
+                    <p className="account-text" >Disconnect</p>
                   </div>
                 </button>
               </div>
@@ -84,9 +83,9 @@ class App extends Component {
             : 
             <div className="button-container">
               <button className="disconnect" onClick={this.requestAuth}>
-                  <i class="fa fa-spotify spotify-logo" aria-hidden="true"></i>
+                  <i className="fa fa-spotify spotify-logo" aria-hidden="true"></i>
                 <div className="button-text">
-                  <p class="account-text" >Sign In</p>
+                  <p className="account-text" >Sign In</p>
                 </div>
               </button>
             </div>

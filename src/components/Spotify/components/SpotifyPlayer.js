@@ -118,20 +118,22 @@ class SpotifyPlayer extends Component {
           <p id="track-title">{this.props.trackTitle}</p>
           <p id="artists">{this.props.artists}</p>
         </div>
-        <div id="spotify-playback-controls">
-          <i className={this.getTrackStatus('fas fa-backward', this.props.previousTracks)} 
-            onClick={this.getPreviousTrack}></i>
-          <i className={this.getPlaybackStatus()} onClick={this.togglePlayback}></i>
-          <i className={this.getTrackStatus('fas fa-forward', this.props.nextTracks)} 
-            onClick={this.getNextTrack}></i>
+        <div className="player-controls">
+          <div id="spotify-playback-controls">
+            <i className={this.getTrackStatus('fas fa-backward', this.props.previousTracks)} 
+              onClick={this.getPreviousTrack}></i>
+            <i className={this.getPlaybackStatus()} onClick={this.togglePlayback}></i>
+            <i className={this.getTrackStatus('fas fa-forward', this.props.nextTracks)} 
+              onClick={this.getNextTrack}></i>
+          </div>
+          <Volume
+            playable={this.props.playable}
+            player={this.player}
+            volume={this.props.volume}
+            volumeDivisor={100}
+            changeVolume={this.props.changeVolume}
+          />
         </div>
-        <Volume
-          playable={this.props.playable}
-          player={this.player}
-          volume={this.props.volume}
-          volumeDivisor={100}
-          changeVolume={this.props.changeVolume}
-        />
       </>
     )
   }
