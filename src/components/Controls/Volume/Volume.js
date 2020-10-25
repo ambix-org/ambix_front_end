@@ -4,6 +4,12 @@ import './Volume.scss';
 
 
 class Volume extends Component {
+  // <Volume
+  //   playable={this.props.playable}
+  //   volume={this.props.volume}
+  //   changeVolume={this.props.changeVolume}
+  // />
+
   constructor(props) {
     super(props);
     this.getInputRangeStatus = this.getInputRangeStatus.bind(this);
@@ -35,7 +41,7 @@ class Volume extends Component {
   }
 
   getInputRangeStatus() {
-    return this.props.playable? '' : 'dim-range';
+    return this.props.playable? 'range' : 'range dim-range';
   }
 
   render() {

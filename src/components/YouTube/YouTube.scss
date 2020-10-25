@@ -1,3 +1,22 @@
 #player {
     display: none;
 }
+
+.ambience-tracks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.selected {
+    background-color: rgb(105, 71, 130);
+    color: rgb(175, 175, 175);
+    box-shadow: 0px 0px 8px rgb(150, 101, 185);
+}
+
+.player-controls {
+    display: flex;
+    justify-content: center;
+}
+

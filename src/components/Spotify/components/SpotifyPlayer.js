@@ -3,6 +3,68 @@ import Volume from '../../Controls/Volume/Volume';
 
 import './SpotifyPlayer.scss';
 
+class AlbumArtwork extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      imageOneActive: true,
+      imageOneSource: 'https://www.techspot.com/images2/downloads/topdownload/2016/12/spotify-icon-18.png',
+      imageOneClass: 'active',
+      imageOneAltText: 'Spotify logo',
+      imageTwoActive: false,
+      imageTwoSource: '',
+      imageTwoClass: 'inactive',
+      imageTwoAltText: 'blank',
+    }
+
+    this.getImageInfo = this.getImageInfo.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.artworkURL !== prevProps.artworkURL){
+      const imageOneInfo = this.getImageInfo('imageOne');
+      const imageTwoInfo = this.getImageInfo('imageTwo');
+
+      this.setState({
+        imageOneActive: !this.state.imageOneActive,
+        imageOneSource: imageOneInfo.source,
+        imageOneClass: imageOneInfo.class,
+        imageOneAltText: imageOneInfo.altText,
+        imageTwoActive: !this.state.imageTwoActive,
+        imageTwoSource: imageTwoInfo.source,
+        imageTwoClass: imageTwoInfo.class,
+        imageTwoAltText: imageTwoInfo.altText,
+      });
+    }
+  }
+
+  getImageInfo(element) {
+    const newActiveStatus = !this.state[`${element}Active`];
+    const source = newActiveStatus ? this.props.artworkURL : this.state[`${element}Source`];
+    let newClass = (source === 'https://www.techspot.com/images2/downloads/topdownload/2016/12/spotify-icon-18.png') ? '' : 'artwork';
+    newClass += newActiveStatus ? ' active' : ' inactive';
+    const altText = newActiveStatus ? this.props.altText : this.state[`${element}AltText`];
+    return {class: newClass, altText: altText, source: source}
+  }
+
+  render() {
+    return (
+      <div className="album-artwork-container">
+        <img 
+          className={this.state.imageOneClass} 
+          src={this.state.imageOneSource}
+          alt={this.state.imageOneAltText}
+        />
+        <img 
+          className={this.state.imageTwoClass} 
+          src={this.state.imageTwoSource}
+          alt={this.state.imageTwoAltText}
+        />
+      </div>
+    )
+  }
+}
+
 class SpotifyPlayer extends Component {
   constructor(props) {
     super(props);
@@ -49,16 +111,10 @@ class SpotifyPlayer extends Component {
     return (
       <section className="spotify-player media-module">
         <div id="spotify-track-info">
-          <div id="artwork-box">
-            { this.props.artworkURL ?
-              <img
-                id="artwork"
-                src={this.props.artworkURL}
-                alt={this.props.albumTitle}
-              />
-              : false
-            }
-          </div>
+          <AlbumArtwork
+            artworkURL={this.props.artworkURL}
+            alt={this.props.albumTitle}
+          />
           <p id="track-title">{this.props.trackTitle}</p>
           <p id="artists">{this.props.artists}</p>
         </div>

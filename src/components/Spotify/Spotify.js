@@ -72,8 +72,8 @@ class Spotify extends Component {
           })
         } else {
           this.setState({
-            artworkURL: '',
-            albumTitle: '',
+            artworkURL: 'https://www.techspot.com/images2/downloads/topdownload/2016/12/spotify-icon-18.png',
+            albumTitle: 'Spotify logo',
             trackTitle: 'Select \'ReAmbix\' in Spotify',
             artists: '',
             playable: false,
@@ -105,9 +105,11 @@ class Spotify extends Component {
   }
 
   changeVolume(playerLevel) {
-    const newLevel = parseFloat((newLevel / this.state.divisor).toFixed(2));
-    this.props.player.setVolume(newLevel);
-    this.setState({ volume: newLevel });
+    console.log("PlayerLevel: ", playerLevel)
+    const newLevel = parseFloat((playerLevel / 100).toFixed(2));
+    console.log("NewLevel: ", newLevel);
+    this.player.setVolume(newLevel);
+    this.setState({ volume: playerLevel });
   }
 
   render() {

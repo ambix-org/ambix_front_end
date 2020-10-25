@@ -1,7 +1,27 @@
 import React, { Component } from 'react';
+import Volume from '../Controls/Volume/Volume';
 
 import './YouTube.scss';
 
+
+class AmbientTrack extends Component {
+  render() {
+    return (
+      <button 
+      className={'track' + (this.props.selected ? ' selected' : '')}
+      onClick={() => {
+        if (this.props.selected){
+          this.props.changeTrack('');
+        } else {
+          this.props.changeTrack(this.props.videoId)
+        }
+      }}
+      >
+        {this.props.name}
+      </button>
+    )
+  }
+}
 
 class YouTube extends Component {
   constructor(props) {
@@ -9,16 +29,18 @@ class YouTube extends Component {
     this.state = {
       paused: true,
       ambienceSources: [
-        ['Cafe', 'gaGrHUekGrc'],
-        ['Campfire', 'QMJYlmX1sNU'],
-        ['Fireplace', 'K0pJRo0XU8s'],
-        ['Lab', 'eGeJF85SOdQ'],
-        ['Rain', 'LlKyGAGHc4c'],
-        ['Storm', 'EbMZh-nQFsU'],
-        ['Waves', 'ibZUd-6pDeY'],
+        {name: 'Cafe', videoId: 'gaGrHUekGrc', selected: false},
+        {name: 'Campfire', videoId: 'QMJYlmX1sNU', selected: false},
+        {name: 'Fireplace', videoId: 'K0pJRo0XU8s', selected: false},
+        {name: 'Lab', videoId: 'eGeJF85SOdQ', selected: false},
+        {name: 'Rain', videoId: 'LlKyGAGHc4c', selected: false},
+        {name: 'Storm', videoId: 'EbMZh-nQFsU', selected: false},
+        {name: 'Waves', videoId: 'ibZUd-6pDeY', selected: false},
       ],
+      videoId: '',
       volume: 0,
     }
+    this.changeTrack = this.changeTrack.bind(this);
     this.changeVolume = this.changeVolume.bind(this);
     this.checkForYouTubeIframeAPI = this.checkForYouTubeIframeAPI.bind(this);
     this.getPlaybackStatus = this.getPlaybackStatus.bind(this);
@@ -35,7 +57,7 @@ class YouTube extends Component {
       this.player = new window.YT.Player('player', {
         height: '0',
         widht: '0',
-        videoId: 'LlKyGAGHc4c',
+        videoId: this.state.videoId,
         events: {
           'onReady': this.onPlayerReady,
           'onStateChange': this.onPlayerStateChange,
@@ -44,7 +66,11 @@ class YouTube extends Component {
     }
   }
 
-  
+  changeTrack(videoId) {
+    this.player.loadVideoById(videoId);
+    this.setState({videoId: videoId});
+  }
+
   playVideo() {
     this.player.playVideo();
   }
@@ -62,64 +88,64 @@ class YouTube extends Component {
   }
   
   onPlayerStateChange(event) {
-    console.log('STATE CHANGED:\n', event.data)
+    if (event.data === 1) {
+      this.setState({paused: false});
+    } else if (event.data === 5){
+      this.setState({paused: true});
+    }
   }
   
   getPlaybackStatus() {
     const baseClass = `fas`;
-    const playbackState  = this.state.paused ? ' fa-play' : ' fa-pause';
+    let playbackState;
+    if (this.state.videoId){
+      playbackState  = this.state.paused ? ' fa-play' : ' fa-pause';
+    } else {
+      playbackState = ' fa-play dim';
+    }
     return baseClass + playbackState;
   }
   
   togglePlayback() {
-    if (this.state.paused) {
-      this.player.playVideo()
-    } else {
-      this.player.stopVideo()
+    if (this.state.videoId){
+      if (this.state.paused) {
+        this.player.playVideo()
+      } else {
+        this.player.stopVideo()
+      }
+      this.setState({ paused: !this.state.paused });
     }
-    this.setState({ paused: !this.state.paused });
-  }
-  
-  volumeButtonHandler(increment) {
-    let newLevel = this.state.volume + increment;
-    newLevel = newLevel >= 0 ? newLevel : 0;
-    newLevel = newLevel <= 100 ? newLevel : 100;
-    const playerLevel = newLevel / 100;
-    this.changeVolume(playerLevel);
-    this.setState({ volume: newLevel }); 
-  }
-  
-  rangeHandler(event) {
-    const newLevel = parseInt(event.target.value);
-    const playerLevel = newLevel / 100;
-    this.changeVolume(playerLevel);
-    this.setState({ volume: newLevel });
   }
   
   changeVolume(playerLevel) {
-    this.props.player.setVolume(playerLevel);
+    this.player.setVolume(playerLevel);
+    this.setState({ volume: playerLevel });
   }
-  
-  // YouTube Player Methods:
-  //   - player.setVolume(newlevel)
-  //   - player.getVolume()
-  //   - player.loadVideoById(videoId)
+
   render() {
     return (
     <section className="youtube-player media-module">
       <h2>Ambience Mixer</h2> 
       <div id='player'></div>
       <div className="ambience-tracks">
-        {/* Loop over sources to create track buttons */}
+        { this.state.ambienceSources.map(source => {
+          return (<AmbientTrack 
+            name={source.name} 
+            videoId={source.videoId} 
+            selected={source.videoId === this.state.videoId}
+            key={source.videoId}
+            changeTrack={this.changeTrack}
+          />)
+        })}
       </div>
       <div className="player-controls">
       <i className={this.getPlaybackStatus()} onClick={this.togglePlayback}></i>
       </div>
-      <div className="volume-controls">              
-        <i className="fas fa-volume-down"></i>
-        <input type="range" min="0" max="80" value={this.state.volume} onChange={this.changeVolume}/>
-        <i className="fas fa-volume-up"></i>
-      </div>
+      <Volume
+        playable={this.state.videoId}
+        volume={this.state.volume}
+        changeVolume={this.changeVolume}
+      />
     </section>);
   }
 }
