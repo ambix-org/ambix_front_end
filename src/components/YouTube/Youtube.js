@@ -142,7 +142,7 @@ class YouTube extends Component {
       <i className={this.getPlaybackStatus()} onClick={this.togglePlayback}></i>
       </div>
       <Volume
-        playable={true}
+        playable={this.state.videoId}
         volume={this.state.volume}
         changeVolume={this.changeVolume}
       />

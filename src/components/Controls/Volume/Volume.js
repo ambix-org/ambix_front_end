@@ -41,7 +41,7 @@ class Volume extends Component {
   }
 
   getInputRangeStatus() {
-    return this.props.playable? '' : 'dim-range';
+    return this.props.playable? 'range' : 'range dim-range';
   }
 
   render() {
