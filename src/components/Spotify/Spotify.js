@@ -56,7 +56,6 @@ class Spotify extends Component {
         console.error('Playback Error:', message);
       });
       this.player.addListener('player_state_changed', state => {
-        console.log('State Change: ', state);
         if (state) {
           const artists = state.track_window.current_track.artists.reduce((accum, artist) => {
             return accum ? `${accum} | ${artist.name}` : `${artist.name}`;
@@ -106,9 +105,7 @@ class Spotify extends Component {
   }
 
   changeVolume(playerLevel) {
-    console.log("PlayerLevel: ", playerLevel)
     const newLevel = parseFloat((playerLevel / 100).toFixed(2));
-    console.log("NewLevel: ", newLevel);
     this.player.setVolume(newLevel);
     this.setState({ volume: playerLevel });
   }

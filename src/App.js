@@ -54,7 +54,6 @@ class App extends Component {
   }
 
   redirect() {
-    console.log(`Redirecting to ${this.state.redirectURL}`)
     window.location = this.state.redirectURL;
   }
 
