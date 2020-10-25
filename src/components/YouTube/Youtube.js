@@ -120,6 +120,7 @@ class YouTube extends Component {
             videoId={source.videoId} 
             player={this.player}
             selected={source.selected}
+            key={source.videoId}
           />)
         })}
       </div>
