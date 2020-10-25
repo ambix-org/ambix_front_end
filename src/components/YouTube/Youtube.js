@@ -3,28 +3,25 @@ import Volume from '../Controls/Volume/Volume';
 
 import './YouTube.scss';
 
-class AmbientTrack extends Component {
 
-  // <AmbientTrack 
-  //   name={source.name} 
-  //   videoId={source.videoId} 
-  //   selected={source.selected === this.state.videoId}
-  //   key={source.videoId}
-  //   changeTrack={this.changeTrack}
-  // />
-  
+class AmbientTrack extends Component {
   render() {
     return (
       <button 
       className={'track' + (this.props.selected ? ' selected' : '')}
-      onClick={() => this.props.changeTrack(this.props.videoId)}
+      onClick={() => {
+        if (this.props.selected){
+          this.props.changeTrack('');
+        } else {
+          this.props.changeTrack(this.props.videoId)
+        }
+      }}
       >
         {this.props.name}
       </button>
     )
   }
 }
-
 
 class YouTube extends Component {
   constructor(props) {
@@ -40,7 +37,7 @@ class YouTube extends Component {
         {name: 'Storm', videoId: 'EbMZh-nQFsU', selected: false},
         {name: 'Waves', videoId: 'ibZUd-6pDeY', selected: false},
       ],
-      videoId: 'LlKyGAGHc4c',
+      videoId: '',
       volume: 0,
     }
     this.changeTrack = this.changeTrack.bind(this);
@@ -100,17 +97,24 @@ class YouTube extends Component {
   
   getPlaybackStatus() {
     const baseClass = `fas`;
-    const playbackState  = this.state.paused ? ' fa-play' : ' fa-pause';
+    let playbackState;
+    if (this.state.videoId){
+      playbackState  = this.state.paused ? ' fa-play' : ' fa-pause';
+    } else {
+      playbackState = ' fa-play dim';
+    }
     return baseClass + playbackState;
   }
   
   togglePlayback() {
-    if (this.state.paused) {
-      this.player.playVideo()
-    } else {
-      this.player.stopVideo()
+    if (this.state.videoId){
+      if (this.state.paused) {
+        this.player.playVideo()
+      } else {
+        this.player.stopVideo()
+      }
+      this.setState({ paused: !this.state.paused });
     }
-    this.setState({ paused: !this.state.paused });
   }
   
   changeVolume(playerLevel) {
