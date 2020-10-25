@@ -105,7 +105,7 @@ class Spotify extends Component {
   }
 
   changeVolume(playerLevel) {
-    const newLevel = parseFloat((newLevel / this.state.divisor).toFixed(2));
+    const newLevel = parseFloat((playerLevel / this.state.divisor).toFixed(2));
     this.props.player.setVolume(newLevel);
     this.setState({ volume: newLevel });
   }

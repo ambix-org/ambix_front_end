@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Volume from '../Controls/Volume/Volume';
 
 import './YouTube.scss';
 
@@ -80,29 +81,12 @@ class YouTube extends Component {
     this.setState({ paused: !this.state.paused });
   }
   
-  volumeButtonHandler(increment) {
-    let newLevel = this.state.volume + increment;
-    newLevel = newLevel >= 0 ? newLevel : 0;
-    newLevel = newLevel <= 100 ? newLevel : 100;
-    const playerLevel = newLevel / 100;
-    this.changeVolume(playerLevel);
-    this.setState({ volume: newLevel }); 
-  }
-  
-  rangeHandler(event) {
-    const newLevel = parseInt(event.target.value);
-    const playerLevel = newLevel / 100;
-    this.changeVolume(playerLevel);
-    this.setState({ volume: newLevel });
-  }
-  
   changeVolume(playerLevel) {
-    this.props.player.setVolume(playerLevel);
+    this.player.setVolume(playerLevel);
+    this.setState({ volume: playerLevel });
   }
   
   // YouTube Player Methods:
-  //   - player.setVolume(newlevel)
-  //   - player.getVolume()
   //   - player.loadVideoById(videoId)
   render() {
     return (
@@ -115,11 +99,11 @@ class YouTube extends Component {
       <div className="player-controls">
       <i className={this.getPlaybackStatus()} onClick={this.togglePlayback}></i>
       </div>
-      <div className="volume-controls">              
-        <i className="fas fa-volume-down"></i>
-        <input type="range" min="0" max="80" value={this.state.volume} onChange={this.changeVolume}/>
-        <i className="fas fa-volume-up"></i>
-      </div>
+      <Volume
+        playable={true}
+        volume={this.state.volume}
+        changeVolume={this.changeVolume}
+      />
     </section>);
   }
 }
