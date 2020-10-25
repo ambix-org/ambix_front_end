@@ -9,8 +9,8 @@ import YouTube from './components/YouTube/Youtube';
 import './App.scss';
 
 
-// const AUTH_URI = 'https://ambix-server.herokuapp.com/authorize';
-const AUTH_URI = 'http://localhost:4242/authorize';
+const AUTH_URI = 'https://ambix-server.herokuapp.com/authorize';
+// const AUTH_URI = 'http://localhost:4242/authorize';
 
 
 class App extends Component {
