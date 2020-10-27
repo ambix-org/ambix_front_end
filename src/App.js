@@ -68,7 +68,7 @@ class App extends Component {
           { this.state.refreshToken ?
             <>
               <div className="media-modules">
-                { this.state.refreshToken ? <Spotify refreshToken={this.state.refreshToken} /> : false }
+                {/* { this.state.refreshToken ? <Spotify refreshToken={this.state.refreshToken} /> : false } */}
                 <YouTube />
               </div>
               <div className="button-container">
