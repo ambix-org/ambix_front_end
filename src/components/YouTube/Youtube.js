@@ -186,7 +186,7 @@ class YouTube extends Component {
             changeTrack={this.changeTrack}
           />)
         })}
-        <i className="fas fa-plus plus" onClick={this.revealModal}></i>
+        <i id="plus" className="fas fa-plus" onClick={this.revealModal}></i>
         <div className={this.getModalClass()}>
           <div className="new-track-info">
             <input 
