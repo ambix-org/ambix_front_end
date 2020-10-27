@@ -16,9 +16,10 @@ i {
     font-family: 'Montserrat', sans-serif;
     text-align: center;
 }
+
 .spotify-player {
     transition: opacity 1s ease-out;
-    height: 550px;
+    min-height: 550px;
 }
 
 .player-contents {

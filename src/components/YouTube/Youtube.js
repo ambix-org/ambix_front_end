@@ -96,6 +96,11 @@ class YouTube extends Component {
   }
   
   onPlayerStateChange(event) {
+    // console.log(event)
+    // If a videoID is invalid, the .getVideoData() method will return a title and author of ''.
+    // Could potentially be used to detect bac ambient tracks that were added.
+    // Would need a way to notify or automatically delete the button.
+    // console.log(event.target.getVideoData())
     if (event.data === 1) {
       this.setState({paused: false});
     } else if (event.data === 5){
@@ -147,6 +152,8 @@ class YouTube extends Component {
         },
       ],
       modalVisible: false,
+      newTrackName: '',
+      newTrackId: '',
     });
   }
 
@@ -179,7 +186,7 @@ class YouTube extends Component {
             changeTrack={this.changeTrack}
           />)
         })}
-        <i class="fas fa-plus" onClick={this.revealModal}></i>
+        <i className="fas fa-plus plus" onClick={this.revealModal}></i>
         <div className={this.getModalClass()}>
           <div className="new-track-info">
             <input 

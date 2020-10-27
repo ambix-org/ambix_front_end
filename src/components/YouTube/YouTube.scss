@@ -3,7 +3,6 @@
 }
 
 .youtube-player {
-    max-height: 550px;
     justify-content: space-between;
 }
 
@@ -13,6 +12,7 @@
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 10px;
+    // overflow-y: scroll;
 }
 
 .selected {
@@ -35,18 +35,27 @@
     z-index: 10;
     top: 20px;
     position: absolute;
-    background-color: rgba(49, 35, 59, 0.884);
-    transition: opacity 1s ease-out;
+    background-color: rgba(49, 35, 59, 1);
+    padding: 10px;
+    transition: opacity .5s ease-out;
+    border-radius: 5px;
 }
 
 .add-track input {
+    text-align: center;
     display: block;
     height: 30px;
     border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 .hidden {
     opacity: 0;
     z-index: -10;
-    transition: opacity 1s ease-out, z-index 0s ease-out 2s;
+    transition: opacity .5s ease-out, z-index 0s ease-out .5s;
+}
+
+.plus {
+    line-height: 36px;
+    margin: 20px 20px 0 20px;
 }
