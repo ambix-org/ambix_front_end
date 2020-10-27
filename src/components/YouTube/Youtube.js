@@ -39,7 +39,15 @@ class YouTube extends Component {
       ],
       videoId: '',
       volume: 40,
+      newTrackName: '',
+      newTrackId: '',
+      modalVisible: false,
     }
+    this.revealModal = this.revealModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.getModalClass = this.getModalClass.bind(this);
+    this.addTrack = this.addTrack.bind(this);
+    this.changeHandler = this.changeHandler.bind(this);
     this.changeTrack = this.changeTrack.bind(this);
     this.changeVolume = this.changeVolume.bind(this);
     this.checkForYouTubeIframeAPI = this.checkForYouTubeIframeAPI.bind(this);
@@ -88,6 +96,11 @@ class YouTube extends Component {
   }
   
   onPlayerStateChange(event) {
+    // console.log(event)
+    // If a videoID is invalid, the .getVideoData() method will return a title and author of ''.
+    // Could potentially be used to detect bac ambient tracks that were added.
+    // Would need a way to notify or automatically delete the button.
+    // console.log(event.target.getVideoData())
     if (event.data === 1) {
       this.setState({paused: false});
     } else if (event.data === 5){
@@ -122,6 +135,42 @@ class YouTube extends Component {
     this.setState({ volume: playerLevel });
   }
 
+  changeHandler(event) {
+    this.setState({
+      [event.target.name]: event.target.value,
+    })
+  }
+
+  addTrack(){
+    this.setState({
+      ambienceSources: [
+        ...this.state.ambienceSources,
+        {
+          name: this.state.newTrackName,
+          videoId: this.state.newTrackId,
+          selected: false,
+        },
+      ],
+      modalVisible: false,
+      newTrackName: '',
+      newTrackId: '',
+    });
+  }
+
+  getModalClass() {
+    const baseClass = 'add-track';
+    const visibility = this.state.modalVisible ? '' : ' hidden'
+    return baseClass + visibility;
+  }
+
+  closeModal() {
+    this.setState({ modalVisible: false });
+  }
+
+  revealModal() {
+    this.setState({ modalVisible: true });
+  }
+
   render() {
     return (
     <section className="youtube-player media-module">
@@ -137,6 +186,27 @@ class YouTube extends Component {
             changeTrack={this.changeTrack}
           />)
         })}
+        <i id="plus" className="fas fa-plus" onClick={this.revealModal}></i>
+        <div className={this.getModalClass()}>
+          <div className="new-track-info">
+            <input 
+              type="text" 
+              name="newTrackName" 
+              placeholder="Track Name"
+              value={this.state.newTrackName} 
+              onChange={this.changeHandler}
+            />
+            <input 
+              type="text" 
+              name="newTrackId" 
+              placeholder="YouTube Video ID"
+              value={this.state.newTrackId}
+              onChange={this.changeHandler} 
+            />
+          </div>
+          <button onClick={this.addTrack}>Add Track</button>
+          <button onClick={this.closeModal}>Cancel</button>
+        </div>
       </div>
       <div className="player-controls">
         <i className={this.getPlaybackStatus()} onClick={this.togglePlayback}></i>
