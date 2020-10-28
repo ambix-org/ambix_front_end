@@ -38,7 +38,8 @@ class YouTube extends Component {
         {name: 'Waves', videoId: 'ibZUd-6pDeY', selected: false},
       ],
       videoId: '',
-      volume: 40,
+      volumeLevel: 50,
+      rangeValue: 0.71,
       newTrackName: '',
       newTrackId: '',
       modalVisible: false,
@@ -92,7 +93,7 @@ class YouTube extends Component {
   }
   
   onPlayerReady() {
-    this.changeVolume(40);
+    this.changeVolume(50, 0.5);
   }
   
   onPlayerStateChange(event) {
@@ -130,9 +131,12 @@ class YouTube extends Component {
     }
   }
   
-  changeVolume(playerLevel) {
-    this.player.setVolume(playerLevel);
-    this.setState({ volume: playerLevel });
+  changeVolume(volumeLevel, rangeValue) {
+    this.player.setVolume(volumeLevel);
+    this.setState({ 
+      volumeLevel: volumeLevel,
+      rangeValue: rangeValue,
+    });
   }
 
   changeHandler(event) {
@@ -143,6 +147,9 @@ class YouTube extends Component {
 
   addTrack(){
     this.setState({
+      modalVisible: false,
+      newTrackId: '',
+      newTrackName: '',
       ambienceSources: [
         ...this.state.ambienceSources,
         {
@@ -151,9 +158,6 @@ class YouTube extends Component {
           selected: false,
         },
       ],
-      modalVisible: false,
-      newTrackName: '',
-      newTrackId: '',
     });
   }
 
@@ -212,7 +216,8 @@ class YouTube extends Component {
         <i className={this.getPlaybackStatus()} onClick={this.togglePlayback}></i>
         <Volume
           playable={this.state.videoId}
-          volume={this.state.volume}
+          volumeLevel={this.state.volumeLevel}
+          rangeValue={this.state.rangeValue}
           changeVolume={this.changeVolume}
         />
       </div>

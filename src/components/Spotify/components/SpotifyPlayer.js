@@ -128,9 +128,8 @@ class SpotifyPlayer extends Component {
           </div>
           <Volume
             playable={this.props.playable}
-            player={this.player}
-            volume={this.props.volume}
-            volumeDivisor={100}
+            volumeLevel={this.props.volumeLevel}
+            rangeValue={this.props.rangeValue}
             changeVolume={this.props.changeVolume}
           />
         </div>
