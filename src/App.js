@@ -10,8 +10,8 @@ import './App.scss';
 
 
 // const AUTH_URI = 'http://localhost:4242/authorize';
-const AUTH_URI = 'https://ambix-dev-server.herokuapp.com/authorize';
-// const AUTH_URI = 'https://ambix-server.herokuapp.com/authorize';
+// const AUTH_URI = 'https://ambix-dev-server.herokuapp.com/authorize';
+const AUTH_URI = 'https://ambix-server.herokuapp.com/authorize';
 
 
 class App extends Component {
