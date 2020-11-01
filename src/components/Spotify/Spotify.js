@@ -3,8 +3,8 @@ import superagent from 'superagent';
 import SpotifyPlayer from './components/SpotifyPlayer';
 
 
-const REFRESH_URI = 'http://localhost:4242/refresh';
-// const REFRESH_URI = 'https://ambix-dev-server.herokuapp.com/refresh';
+// const REFRESH_URI = 'http://localhost:4242/refresh';
+const REFRESH_URI = 'https://ambix-dev-server.herokuapp.com/refresh';
 // const REFRESH_URI = 'https://ambix-server.herokuapp.com/refresh';
 
 class Spotify extends Component {
