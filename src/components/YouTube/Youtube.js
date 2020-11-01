@@ -28,15 +28,7 @@ class YouTube extends Component {
     super(props);
     this.state = {
       paused: true,
-      ambienceSources: [
-        {name: 'Cafe', videoId: 'gaGrHUekGrc', selected: false},
-        {name: 'Campfire', videoId: 'QMJYlmX1sNU', selected: false},
-        {name: 'Fireplace', videoId: 'K0pJRo0XU8s', selected: false},
-        {name: 'Lab', videoId: 'eGeJF85SOdQ', selected: false},
-        {name: 'Rain', videoId: 'LlKyGAGHc4c', selected: false},
-        {name: 'Storm', videoId: 'EbMZh-nQFsU', selected: false},
-        {name: 'Waves', videoId: 'ibZUd-6pDeY', selected: false},
-      ],
+      ambienceSources: [],
       videoId: '',
       volumeLevel: 50,
       rangeValue: 0.71,
@@ -52,6 +44,8 @@ class YouTube extends Component {
     this.changeTrack = this.changeTrack.bind(this);
     this.changeVolume = this.changeVolume.bind(this);
     this.checkForYouTubeIframeAPI = this.checkForYouTubeIframeAPI.bind(this);
+    this.deleteTrack = this.deleteTrack.bind(this);
+    this.getDeleteClass = this.getDeleteClass.bind(this);
     this.getPlaybackStatus = this.getPlaybackStatus.bind(this);
     this.onPlayerReady = this.onPlayerReady.bind(this);
     this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
@@ -89,6 +83,27 @@ class YouTube extends Component {
   }
   
   componentDidMount() {
+    if (!this.state.ambienceSources.length){
+      let storedSources = localStorage.getItem('ambienceSources');
+      if (storedSources) {
+        storedSources = JSON.parse(storedSources);
+        this.setState({
+          ambienceSources: storedSources,
+        });
+      } else {
+        const defaultSources = [
+          {name: 'Cafe', videoId: 'gaGrHUekGrc', selected: false},
+          {name: 'Campfire', videoId: 'QMJYlmX1sNU', selected: false},
+          {name: 'Fireplace', videoId: 'K0pJRo0XU8s', selected: false},
+          {name: 'Lab', videoId: 'eGeJF85SOdQ', selected: false},
+          {name: 'Rain', videoId: 'LlKyGAGHc4c', selected: false},
+          {name: 'Storm', videoId: 'EbMZh-nQFsU', selected: false},
+          {name: 'Waves', videoId: 'ibZUd-6pDeY', selected: false},
+        ];
+        this.setState({ ambienceSources: defaultSources });
+        localStorage.setItem('ambienceSources', JSON.stringify(defaultSources));
+      }
+    }
     this.playerCheckInterval = setInterval(() => this.checkForYouTubeIframeAPI(), 1000);
   }
   
@@ -146,19 +161,21 @@ class YouTube extends Component {
   }
 
   addTrack(){
+    const newSourceSet = [
+      ...this.state.ambienceSources,
+      {
+        name: this.state.newTrackName,
+        videoId: this.state.newTrackId,
+        selected: false,
+      }
+    ];
     this.setState({
       modalVisible: false,
       newTrackId: '',
       newTrackName: '',
-      ambienceSources: [
-        ...this.state.ambienceSources,
-        {
-          name: this.state.newTrackName,
-          videoId: this.state.newTrackId,
-          selected: false,
-        },
-      ],
+      ambienceSources: [...newSourceSet],
     });
+    localStorage.setItem('ambienceSources', JSON.stringify(newSourceSet));
   }
 
   getModalClass() {
@@ -173,6 +190,29 @@ class YouTube extends Component {
 
   revealModal() {
     this.setState({ modalVisible: true });
+  }
+
+  getDeleteClass() {
+    const baseClass = 'fa fa-trash-o track-buttons';
+    const visibility = this.state.videoId ? '': ' no-display';
+    return baseClass + visibility;
+  }
+
+  deleteTrack() {
+    const newSourceSet = this.state.ambienceSources.reduce( (acc, source) => {
+      if (source.videoId !== this.state.videoId) {
+        acc.push(source);
+      }
+      return acc;
+    }, []);
+    this.togglePlayback();
+    this.setState({ 
+      ambienceSources: newSourceSet,
+      videoId: '',
+      newTrackName: '',
+      newTrackId: '',
+    });
+    localStorage.setItem('ambienceSources', JSON.stringify(newSourceSet));
   }
 
   render() {
@@ -190,7 +230,8 @@ class YouTube extends Component {
             changeTrack={this.changeTrack}
           />)
         })}
-        <i id="plus" className="fas fa-plus" onClick={this.revealModal}></i>
+        <i className="fas fa-plus track-buttons" onClick={this.revealModal}></i>
+        <i className={this.getDeleteClass()} onClick={this.deleteTrack}></i>
         <div className={this.getModalClass()}>
           <div className="new-track-info">
             <input 
