@@ -4,8 +4,8 @@ import SpotifyPlayer from './components/SpotifyPlayer';
 
 
 // const REFRESH_URI = 'http://localhost:4242/refresh';
-// const REFRESH_URI = 'https://ambix-dev-server.herokuapp.com/refresh';
-const REFRESH_URI = 'https://ambix-server.herokuapp.com/refresh';
+const REFRESH_URI = 'https://ambix-dev-server.herokuapp.com/refresh';
+// const REFRESH_URI = 'https://ambix-server.herokuapp.com/refresh';
 
 class Spotify extends Component {
   constructor(props) {
@@ -20,7 +20,8 @@ class Spotify extends Component {
       paused: true,
       nextTracks: false,
       previousTracks: false,
-      volume: 40,
+      volumeLevel: 50,
+      rangeValue: .71,
     }
     this.checkForPlayer = this.checkForPlayer.bind(this);
     this.updatePauseState = this.updatePauseState.bind(this);
@@ -105,10 +106,17 @@ class Spotify extends Component {
     this.setState({ pasused: newState });
   }
 
-  changeVolume(playerLevel) {
-    const newLevel = parseFloat((playerLevel / 100).toFixed(2));
+  changeVolume(volumeLevel, rangeValue) {
+    console.log(volumeLevel);
+    const newLevel = parseFloat((volumeLevel / 100).toFixed(2));
+    rangeValue = parseFloat(rangeValue.toFixed(2));
+    console.log(rangeValue);
+    console.log(newLevel)
     this.player.setVolume(newLevel);
-    this.setState({ volume: playerLevel });
+    this.setState({ 
+      volumeLevel: volumeLevel,
+      rangeValue: rangeValue,
+     });
   }
 
   getPlayerClass() {
@@ -133,7 +141,8 @@ class Spotify extends Component {
             nextTracks={this.state.nextTracks}
             previousTracks={this.state.previousTracks}
             updatePauseState={this.updatePauseState}
-            volume={this.state.volume}
+            volumeLevel={this.state.volumeLevel}
+            rangeValue={this.state.rangeValue}
             changeVolume={this.changeVolume}
           />
           : false

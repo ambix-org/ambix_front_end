@@ -55,7 +55,11 @@
     transition: opacity .5s ease-out, z-index 0s ease-out .5s;
 }
 
-#plus {
-    line-height: 36px;
-    margin: 20px 20px 0 20px;
+.track-buttons {
+    line-height: 36px !important;
+    margin: 20px 20px 0 20px !important;
+}
+
+.no-display {
+    display: none !important;
 }
