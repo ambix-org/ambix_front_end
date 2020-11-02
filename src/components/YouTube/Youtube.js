@@ -33,7 +33,7 @@ class YouTube extends Component {
       volumeLevel: 50,
       rangeValue: 0.71,
       newTrackName: '',
-      newTrackId: '',
+      newTrackLocation: '',
       modalVisible: false,
     }
     this.revealModal = this.revealModal.bind(this);
@@ -161,17 +161,19 @@ class YouTube extends Component {
   }
 
   addTrack(){
+    const extractIdExp = /[a-zA-Z0-9-_]{11}/;
+    const videoId = this.state.newTrackLocation.match(extractIdExp)[0];
     const newSourceSet = [
       ...this.state.ambienceSources,
       {
         name: this.state.newTrackName,
-        videoId: this.state.newTrackId,
+        videoId: videoId,
         selected: false,
       }
     ];
     this.setState({
       modalVisible: false,
-      newTrackId: '',
+      newTrackLocation: '',
       newTrackName: '',
       ambienceSources: [...newSourceSet],
     });
@@ -210,7 +212,7 @@ class YouTube extends Component {
       ambienceSources: newSourceSet,
       videoId: '',
       newTrackName: '',
-      newTrackId: '',
+      newTrackLocation: '',
     });
     localStorage.setItem('ambienceSources', JSON.stringify(newSourceSet));
   }
@@ -243,9 +245,9 @@ class YouTube extends Component {
             />
             <input 
               type="text" 
-              name="newTrackId" 
-              placeholder="YouTube Video ID"
-              value={this.state.newTrackId}
+              name="newTrackLocation" 
+              placeholder="YouTube Video Link or ID"
+              value={this.state.newTrackLocation}
               onChange={this.changeHandler} 
             />
           </div>
