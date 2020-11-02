@@ -57,7 +57,7 @@ class YouTube extends Component {
   checkForYouTubeIframeAPI() {
     if (window.YT !== null) {
       clearInterval(this.playerCheckInterval);
-      this.player = new window.YT.Player('player', {
+      this.player = new window.YT.Player(`player-${this.props.name}`, {
         height: '0',
         widht: '0',
         videoId: this.state.videoId,
@@ -71,6 +71,7 @@ class YouTube extends Component {
 
   changeTrack(videoId) {
     this.player.loadVideoById(videoId);
+    this.player.setLoop(true);
     this.setState({videoId: videoId});
   }
 
@@ -118,9 +119,9 @@ class YouTube extends Component {
     // Would need a way to notify or automatically delete the button.
     // console.log(event.target.getVideoData())
     if (event.data === 1) {
-      this.setState({paused: false});
+      this.setState({ paused: false });
     } else if (event.data === 5){
-      this.setState({paused: true});
+      this.setState({ paused: true });
     }
   }
   
@@ -221,7 +222,7 @@ class YouTube extends Component {
     return (
     <section className="youtube-player media-module">
       <h2>Ambience Mixer</h2> 
-      <div id='player'></div>
+      <div id={`player-${this.props.name}`}></div>
       <div className="ambience-tracks">
         { this.state.ambienceSources.map(source => {
           return (<AmbientTrack 
