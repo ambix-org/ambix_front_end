@@ -3,9 +3,9 @@ import superagent from 'superagent';
 import SpotifyPlayer from './components/SpotifyPlayer';
 
 
-// const REFRESH_URI = 'http://localhost:4242/refresh';
+const REFRESH_URI = 'http://localhost:4242/refresh';
 // const REFRESH_URI = 'https://ambix-dev-server.herokuapp.com/refresh';
-const REFRESH_URI = 'https://ambix-server.herokuapp.com/refresh';
+// const REFRESH_URI = 'https://ambix-server.herokuapp.com/refresh';
 
 class Spotify extends Component {
   constructor(props) {
@@ -127,24 +127,26 @@ class Spotify extends Component {
 
   render() {
     return (
-    <section className="spotify-player media-module">
+    <section className="audio-source media-module">
       <div className={this.getPlayerClass()}>
         { this.state.playerReady ?
-          <SpotifyPlayer
-            albumTitle={this.state.albumTitle}
-            artists={this.state.artists}
-            trackTitle={this.state.trackTitle}
-            artworkURL={this.state.artworkURL}
-            player={this.player}
-            playable={this.state.playable}
-            paused={this.state.paused}
-            nextTracks={this.state.nextTracks}
-            previousTracks={this.state.previousTracks}
-            updatePauseState={this.updatePauseState}
-            volumeLevel={this.state.volumeLevel}
-            rangeValue={this.state.rangeValue}
-            changeVolume={this.changeVolume}
-          />
+          <>
+            <SpotifyPlayer
+              albumTitle={this.state.albumTitle}
+              artists={this.state.artists}
+              trackTitle={this.state.trackTitle}
+              artworkURL={this.state.artworkURL}
+              player={this.player}
+              playable={this.state.playable}
+              paused={this.state.paused}
+              nextTracks={this.state.nextTracks}
+              previousTracks={this.state.previousTracks}
+              updatePauseState={this.updatePauseState}
+              volumeLevel={this.state.volumeLevel}
+              rangeValue={this.state.rangeValue}
+              changeVolume={this.changeVolume}
+            />
+          </>
           : false
         }
       </div>

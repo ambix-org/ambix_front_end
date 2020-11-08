@@ -9,9 +9,9 @@ import YouTube from './components/YouTube/Youtube';
 import './App.scss';
 
 
-// const AUTH_URI = 'http://localhost:4242/authorize';
+const AUTH_URI = 'http://localhost:4242/authorize';
 // const AUTH_URI = 'https://ambix-dev-server.herokuapp.com/authorize';
-const AUTH_URI = 'https://ambix-server.herokuapp.com/authorize';
+// const AUTH_URI = 'https://ambix-server.herokuapp.com/authorize';
 
 
 class App extends Component {
@@ -21,6 +21,7 @@ class App extends Component {
     const refreshToken = localStorage.getItem('refresh');
     
     this.state = {
+      musicSource: null,
       refreshToken: refreshToken,
       redirect: false,
       redirectURL: '',
@@ -50,7 +51,8 @@ class App extends Component {
 
   disconnect() {
     localStorage.removeItem('refresh');
-    window.location.reload()
+    localStorage.removeItem('_spharmony_device_id');
+    window.location.reload();
   }
 
   redirect() {
@@ -66,9 +68,53 @@ class App extends Component {
         <main className="App">
           {this.state.redirect ? this.redirect() : false}
           <h1>Ambix</h1>
-          { this.state.refreshToken ?
+          <div className="media-modules">
+            { this.state.musicSource === null ? 
+              <section className="media-module audio-source">
+                <h2>Audio source</h2>
+                <p>Select a source below:</p>
+                <div className="button-container">
+                  <button onClick={() => this.setState({musicSource: 'Spotify'})}>Spotify Premium</button>
+                  <button onClick={() => this.setState({musicSource: 'YouTube'})}>YouTube Playlist</button>
+                </div>
+              </section>
+              : false
+            }
+            { this.state.musicSource === 'Spotify'  && this.state.refreshToken ?
+              <Spotify refreshToken={this.state.refreshToken} /> 
+              : false
+            }
+            { this.state.musicSource === 'Spotify' && !this.state.refreshToken ?
+              <div className="media-module">
+                <button className="disconnect" onClick={this.requestAuth}>
+                    <i className="fa fa-spotify spotify-logo" aria-hidden="true"></i>
+                  <div className="button-text">
+                    <p className="account-text" >Sign In</p>
+                  </div>
+                </button>
+              </div>
+              : false
+            }
+            <YouTube name="1" />
+          </div>
+          { this.state.musicSource === 'Spotify' && this.state.refreshToken ? 
+            <div className="button-container">
+              <button className="disconnect" onClick={this.disconnect}>
+                  <i className="fa fa-spotify spotify-logo" aria-hidden="true"></i>
+                <div className="button-text">
+                  <p className="account-text" >Disconnect</p>
+                </div>
+              </button>
+            </div>
+            : <div className="button-container"></div>
+          }
+          {/* { this.state.refreshToken ?
             <>
               <div className="media-modules">
+                <div className="media-module">
+                  <button>Spotify</button>
+                  <button>YouTube</button> 
+                </div>
                 { this.state.refreshToken ? <Spotify refreshToken={this.state.refreshToken} /> : false }
                 <YouTube name="1" />
               </div>
@@ -90,7 +136,7 @@ class App extends Component {
                 </div>
               </button>
             </div>
-          }         
+          }          */}
         </main>
       </Route>
     </>);

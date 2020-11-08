@@ -86,6 +86,8 @@ button:focus {
     border-radius: 5px;
     padding: 20px;
     margin: 0 10px 20px 10px;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .transparent {
@@ -97,6 +99,12 @@ button:focus {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+}
+
+.audio-source {
+    transition: opacity 1s ease-out;
+    min-height: 550px;
+    min-width: 350px;
 }
 
 .disconnect {
@@ -121,6 +129,7 @@ button:focus {
 }
 
 .button-container {
+    min-height: 44px;
     width: 100%;
     margin: 20px 0 40px 0;
     display: flex;
