@@ -5,6 +5,7 @@ import superagent from 'superagent';
 import Auth from './components/Auth/Auth';
 import Spotify from './components/Spotify/Spotify';
 import YouTube from './components/YouTube/Youtube';
+import YouTubePlaylist from './components/YouTube/YoutubePlaylist';
 
 import './App.scss';
 
@@ -72,12 +73,16 @@ class App extends Component {
             { this.state.musicSource === null ? 
               <section className="media-module audio-source">
                 <h2>Audio source</h2>
-                <p>Select a source below:</p>
                 <div className="button-container">
                   <button onClick={() => this.setState({musicSource: 'Spotify'})}>Spotify Premium</button>
                   <button onClick={() => this.setState({musicSource: 'YouTube'})}>YouTube Playlist</button>
                 </div>
+                <div className="bumper"></div>
               </section>
+              : false
+            }
+            { this.state.musicSource === 'YouTube' ? 
+              <YouTubePlaylist />
               : false
             }
             { this.state.musicSource === 'Spotify'  && this.state.refreshToken ?
