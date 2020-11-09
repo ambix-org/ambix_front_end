@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Volume from '../../Controls/Volume/Volume';
+import Volume from '../../../../Utilities/Volume/Volume';
 
 import './SpotifyPlayer.scss';
 

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import Volume from '../Controls/Volume/Volume';
-
-import './YouTube.scss';
+import Volume from '../../../Utilities/Volume/Volume';
 
 
 class AmbientTrack extends Component {

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import superagent from 'superagent';
 
-import Auth from '../Auth/Auth';
-import Spotify from '../Spotify/Spotify';
-import YouTubePlaylist from '../YouTube/YoutubePlaylist';
+import Auth from './components/Auth/Auth';
+import Spotify from './components/Spotify/Spotify';
+import YouTubePlaylist from './components/YouTubePlaylist/YoutubePlaylist';
 
 
 const AUTH_URI = 'http://localhost:4242/authorize';

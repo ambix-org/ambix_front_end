@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import MusicSource from './components/MusicSource/MusicSource';
-import YouTube from './components/YouTube/Youtube';
+import YouTube from './components/AmbientSource/AmbientSource';
 
 import './App.scss';
 
